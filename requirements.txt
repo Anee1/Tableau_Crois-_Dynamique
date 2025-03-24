@@ -299,3 +299,4 @@ wrapt==1.16.0
 yfinance==0.2.32
 zipp==3.15.0
 distutils
+setuptools
