@@ -3,6 +3,7 @@ import pandas as pd
 from pivottablejs import pivot_ui
 import streamlit.components.v1 as components
 import os
+import io
 
 # Configuration de la page en mode large
 st.set_page_config(layout="wide")
@@ -21,6 +22,14 @@ if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
     elif file_extension == "xlsx":
         df = pd.read_excel(uploaded_file, engine="openpyxl")  # Lecture du fichier Excel
+
+
+        csv_buffer = io.StringIO()
+        df.to_csv(csv_buffer, index=False, encoding="utf-8")
+
+
+        csv_buffer.seek(0)  # Revenir au début du buffer
+        df = pd.read_csv(csv_buffer)
 
     # Générer le tableau croisé dynamique dans un fichier temporaire
     pivot_ui(df, outfile_path="pivot.html")
